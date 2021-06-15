@@ -28,14 +28,13 @@ puts sum_of_cubes(a, b)
 
 
 def non_duplicated_values(arr)
-    counts = Hash.new(0)
-
+    res = Array.new
     arr.each do |ele|
-        counts[ele]+=1
+        if arr.count(ele) == 1
+            res.push(ele)
+        end
     end
-    counts.select do |key, count|
-        count == 1
-    end.keys
+    return res
 end
 
 arr = [1,2,2,3,3,4,5]
@@ -55,23 +54,14 @@ print non_duplicated_values(arr), "\n"
 # method should return true.
 
 
-def palindrome(str)
-    len, i = str.length, 0
-    while i < len/2 do
-        if str[i].eql?str[len-i-1]
-            i+=1;
-            next
-        else
-            return 'false'
-        end
-    end
-        return 'true'
+def palindrome?(string)
+    string == string.reverse
 end
 
 
 str = gets.downcase
 str.gsub!(/[^0-9A-Za-z]/, '')
-puts palindrome(str)
+puts palindrome?(str)
 
 
 
@@ -167,7 +157,7 @@ puts string.index("RUBY")
 
 
 def printArr(arr)
-    if arr.size==0
+    if arr.size.zero?
         return
     else
         print arr.shift, " "
@@ -215,7 +205,7 @@ text as RUBY code. The parser then executes all of the code it finds until it ru
 string2 = "RUBY does not require (or support) explicit type definition in variable declaration; a variable's type 
 is determined by the context in which the variable is used."
 
-puts string1+string2
+puts string1.concat(string2)
 
 
 
@@ -261,7 +251,7 @@ def incrementDate(time, n)
     day = time.day + n
     month = time.month
     year = time.year
-    if month==1 || month==3 || month==5 || month==7 || month==8 || month==10 || month==12
+    if [1, 3, 5, 7, 8, 10, 12].include?(month)
         if day>31
             day = day - 31
             month+=1
@@ -458,10 +448,10 @@ incrementDate(time, 20)
 # 20) Print date in array format.
 
 time = Time.now
-print time.to_a
+print time.to_a         #   OUTPUT      [7, 28, 18, 15, 6, 2021, 2, 166, false, "IST"]
 
 # arr = [time.day, time.month, time.year]
-# print arr
+# print arr             #   OUTPUT      [15, 6, 2021]
 
 
 
@@ -509,16 +499,19 @@ end
 # Ex: 0 -> Out of fuel, 1-10 -> Low, Please fill, 11-30 -> Good for now, 31-50 -> Almost Full, > 50 -> Full
 
 def fuel_indication(fuel)
-    if fuel==0
+    case fuel
+    when 0
         return "Out of fuel"
-    elsif fuel>=1 && fuel<=10
+    when 1..10
         return "Low, Please fill"
-    elsif fuel>=11 && fuel<=30
+    when 11..30
         return "Good for now"
-    elsif fuel>=31 && fuel<=50
+    when 31..50
         return "Almost Full"
-    elsif fuel>50
+    when 50.. then
         return "Full"
+    else
+        return "Fuel cannot be in negative"
     end
 end
 
@@ -579,16 +572,12 @@ puts arr.sample
 # 25. Program to Count the Number of Each Vowel
 
 def count_each_vowel(str)
-    puts "a = #{str.count('a')}"
-    puts "e = #{str.count('e')}"
-    puts "i = #{str.count('i')}"
-    puts "o = #{str.count('o')}"
-    puts "u = #{str.count('u')}"
+    return str.count('a'), str.count('e'), str.count('i'), str.count('o'), str.count('u')
 end
 
-
 str = gets.chomp
-count_each_vowel(str)
+vowelCountArr = count_each_vowel(str)
+print vowelCountArr
 
 
 
@@ -606,7 +595,7 @@ def sortHash(itemPrice)
     # itemPrice.sort_by(&:last).to_h        another method
 end
 
-
+itemPrice = Hash.new
 itemPrice = {
     "pen" => 10,
     "book" => 400,
